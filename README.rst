@@ -24,7 +24,17 @@ Install Django-VueFormGenerator::
 
 Then use it in a project::
 
-    import django_vueformgenerator
+    from django_vueformgenerator.schema import Schema
+    from django import forms
+    import json
+
+    class TestForm(forms.Form):
+        title = forms.CharField(max_length=128)
+        content = forms.TextField(max_length=1280)
+
+    schema = Schema().render(TestForm)
+    print(json.dumps(schema))
+
 
 Features
 --------
