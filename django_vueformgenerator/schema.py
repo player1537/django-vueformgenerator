@@ -6,11 +6,16 @@ class Schema(object):
     in it.
     """
     def render(self, form_cls):
+        fields = form_cls().fields
+
+        for (name, field) in fields.items():
+            field.__name__ = name
+
         return dict(
             schema=dict(
                 fields=[
                     registry.lookup(field).render(field)
-                    for (name, field) in form_cls().fields.items()
+                    for field in fields.values()
                 ],
             ),
         )

@@ -22,7 +22,7 @@ class Attr(Field):
 
 class Name(Field):
     def render(self, field):
-        return field.label
+        return field.__name__
 
 class Func(Field):
     def __init__(self, func):

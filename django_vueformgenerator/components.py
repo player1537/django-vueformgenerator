@@ -1,5 +1,7 @@
 from django.forms import widgets
-import .fields
+from .fields import (
+    Field, Attr, Name, Literal, Func,
+)
 from collections import OrderedDict
 import copy
 
@@ -18,7 +20,7 @@ class ComponentRegistry(object):
 
 registry = ComponentRegistry()
 
-def register_schema_for(widget_cls):
+def register_schema_for(widget_cls, registry=registry):
     def wrapper(component_cls):
         registry.add(widget_cls, component_cls)
         return component_cls
