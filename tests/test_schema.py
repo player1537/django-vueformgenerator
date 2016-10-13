@@ -93,5 +93,29 @@ class TestDjango_vueformgenerator(TestCase):
 
         self.assertEqual(schema, expected)
 
+    def test_schema_generation_for_integer(self):
+        class TestForm(forms.ModelForm):
+            class Meta:
+                model = TestModel
+                fields = ('integer_field',)
+
+        schema = Schema().render(TestForm)
+        expected = {
+            'schema': {
+                'fields': [
+                    {
+                        'default': None,
+                        'hint': '',
+                        'label': 'Integer field',
+                        'model': 'integer_field',
+                        'required': True,
+                        'type': 'number',
+                    }
+                ],
+            },
+        }
+
+        self.assertEqual(schema, expected)
+
     def tearDown(self):
         pass

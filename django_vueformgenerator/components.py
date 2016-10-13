@@ -112,3 +112,8 @@ class TextAreaComponent(six.with_metaclass(DeclarativeFieldsMetaclass, BaseCompo
 @register_schema_for(widgets.CheckboxInput)
 class CheckboxComponent(six.with_metaclass(DeclarativeFieldsMetaclass, BaseComponent)):
     type = Literal('checkbox')
+
+
+@register_schema_for(widgets.NumberInput)
+class NumberComponent(six.with_metaclass(DeclarativeFieldsMetaclass, BaseComponent)):
+    type = Literal('number')

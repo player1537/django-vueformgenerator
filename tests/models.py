@@ -15,3 +15,4 @@ class TestModel(models.Model):
     char_field = models.CharField(max_length=128)
     text_field = models.TextField(max_length=1024)
     boolean_field = models.BooleanField(default=False)
+    integer_field = models.IntegerField()
