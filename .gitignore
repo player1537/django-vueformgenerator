@@ -48,3 +48,5 @@ docs/_build
 
 # Backup files
 *~
+/TAGS
+/venv
