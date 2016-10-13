@@ -1,5 +1,6 @@
 from .components import registry
 
+
 class Schema(object):
     """
     A schema takes in a form and returns a dictionary representing the fields

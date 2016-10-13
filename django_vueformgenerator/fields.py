@@ -2,6 +2,7 @@ class Field(object):
     def render(self, field):
         raise NotImplementedError('Field.render needs to be defined')
 
+
 class Attr(Field):
     def __init__(self, attr, default=None, type=None):
         self.attr = attr
@@ -20,9 +21,11 @@ class Attr(Field):
         except AttributeError:
             return self.default
 
+
 class Name(Field):
     def render(self, field):
         return field.__name__
+
 
 class Func(Field):
     def __init__(self, func):
@@ -30,6 +33,7 @@ class Func(Field):
 
     def render(self, field):
         return self.func(field)
+
 
 class Literal(Field):
     def __init__(self, value):

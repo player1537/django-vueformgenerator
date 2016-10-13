@@ -3,7 +3,7 @@ from .fields import (
     Field, Attr, Name, Literal, Func,
 )
 from collections import OrderedDict
-import copy
+
 
 class ComponentRegistry(object):
     def __init__(self):
@@ -18,13 +18,16 @@ class ComponentRegistry(object):
                 return component
         raise KeyError('Could not find component "{!r}"'.format(component))
 
+
 registry = ComponentRegistry()
+
 
 def register_schema_for(widget_cls, registry=registry):
     def wrapper(component_cls):
         registry.add(widget_cls, component_cls)
         return component_cls
     return wrapper
+
 
 class DeclarativeFieldsMetaclass(type):
     """
@@ -59,6 +62,7 @@ class DeclarativeFieldsMetaclass(type):
 
         return new_class
 
+
 class Component(object):
     def __init__(self, attrs=None):
         if attrs is None and self.attrs is None:
@@ -82,6 +86,7 @@ class Component(object):
 
         return d
 
+
 class BaseComponent(Component, metaclass=DeclarativeFieldsMetaclass):
     label = Attr('label')
     hint = Attr('help_text')
@@ -89,14 +94,17 @@ class BaseComponent(Component, metaclass=DeclarativeFieldsMetaclass):
     default = Attr('default', default=None)
     required = Attr('required')
 
+
 @register_schema_for(widgets.TextInput)
 class TextComponent(BaseComponent, metaclass=DeclarativeFieldsMetaclass):
     type = Literal('text')
+
 
 @register_schema_for(widgets.Textarea)
 class TextAreaComponent(BaseComponent, metaclass=DeclarativeFieldsMetaclass):
     type = Literal('textArea')
     rows = Func(lambda field: int(field.widget.attrs['rows']))
+
 
 @register_schema_for(widgets.CheckboxInput)
 class CheckboxComponent(BaseComponent, metaclass=DeclarativeFieldsMetaclass):
