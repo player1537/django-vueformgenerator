@@ -3,6 +3,7 @@ from .fields import (
     Field, Attr, Name, Literal, Func,
 )
 from collections import OrderedDict
+import six
 
 
 class ComponentRegistry(object):
@@ -42,7 +43,9 @@ class DeclarativeFieldsMetaclass(type):
 
         attrs['declared_fields'] = OrderedDict(current_fields)
 
-        new_class = super().__new__(mcs, name, bases, attrs)
+        new_class = super(DeclarativeFieldsMetaclass, mcs).__new__(
+            mcs, name, bases, attrs
+        )
 
         # Walk through the MRO.
         declared_fields = OrderedDict()
@@ -87,7 +90,7 @@ class Component(object):
         return d
 
 
-class BaseComponent(Component, metaclass=DeclarativeFieldsMetaclass):
+class BaseComponent(six.with_metaclass(DeclarativeFieldsMetaclass, Component)):
     label = Attr('label')
     hint = Attr('help_text')
     model = Name()
@@ -96,16 +99,16 @@ class BaseComponent(Component, metaclass=DeclarativeFieldsMetaclass):
 
 
 @register_schema_for(widgets.TextInput)
-class TextComponent(BaseComponent, metaclass=DeclarativeFieldsMetaclass):
+class TextComponent(six.with_metaclass(DeclarativeFieldsMetaclass, BaseComponent)):
     type = Literal('text')
 
 
 @register_schema_for(widgets.Textarea)
-class TextAreaComponent(BaseComponent, metaclass=DeclarativeFieldsMetaclass):
+class TextAreaComponent(six.with_metaclass(DeclarativeFieldsMetaclass, BaseComponent)):
     type = Literal('textArea')
     rows = Func(lambda field: int(field.widget.attrs['rows']))
 
 
 @register_schema_for(widgets.CheckboxInput)
-class CheckboxComponent(BaseComponent, metaclass=DeclarativeFieldsMetaclass):
+class CheckboxComponent(six.with_metaclass(DeclarativeFieldsMetaclass, BaseComponent)):
     type = Literal('checkbox')
