@@ -117,3 +117,18 @@ class CheckboxComponent(six.with_metaclass(DeclarativeFieldsMetaclass, BaseCompo
 @register_schema_for(widgets.NumberInput)
 class NumberComponent(six.with_metaclass(DeclarativeFieldsMetaclass, BaseComponent)):
     type = Literal('number')
+
+
+@register_schema_for(widgets.Select)
+class SelectComponent(six.with_metaclass(DeclarativeFieldsMetaclass, BaseComponent)):
+    def get_values(choices):
+        return [
+            {
+                'id': value,
+                'name': label,
+            }
+            for (value, label) in choices
+        ]
+
+    type = Literal('select')
+    values = Attr('choices', type=get_values)

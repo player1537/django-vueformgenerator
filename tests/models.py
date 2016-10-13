@@ -16,3 +16,9 @@ class TestModel(models.Model):
     text_field = models.TextField(max_length=1024)
     boolean_field = models.BooleanField(default=False)
     integer_field = models.IntegerField()
+    choice_field = models.CharField(max_length=2, choices=(
+        ('FR', 'Freshman'),
+        ('SO', 'Sophomore'),
+        ('JR', 'Junior'),
+        ('SR', 'Senior'),
+    ))

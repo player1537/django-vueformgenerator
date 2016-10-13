@@ -117,5 +117,36 @@ class TestDjango_vueformgenerator(TestCase):
 
         self.assertEqual(schema, expected)
 
+    def test_schema_generation_for_choice(self):
+        class TestForm(forms.ModelForm):
+            class Meta:
+                model = TestModel
+                fields = ('choice_field',)
+
+        schema = Schema().render(TestForm)
+        expected = {
+            'schema': {
+                'fields': [
+                    {
+                        'default': None,
+                        'hint': '',
+                        'label': 'Choice field',
+                        'model': 'choice_field',
+                        'required': True,
+                        'type': 'select',
+                        'values': [
+                            { 'id': '', 'name': '---------' },
+                            { 'id': 'FR', 'name': 'Freshman' },
+                            { 'id': 'SO', 'name': 'Sophomore' },
+                            { 'id': 'JR', 'name': 'Junior' },
+                            { 'id': 'SR', 'name': 'Senior' },
+                        ],
+                    }
+                ],
+            },
+        }
+
+        self.assertEqual(schema, expected)
+
     def tearDown(self):
         pass
