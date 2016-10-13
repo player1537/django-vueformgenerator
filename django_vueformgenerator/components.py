@@ -15,7 +15,7 @@ class ComponentRegistry(object):
 
     def lookup(self, field):
         for (widget_cls, component) in self.components.items():
-            if isinstance(field.widget, widget_cls):
+            if field.widget.__class__ is widget_cls:
                 return component
         raise KeyError('Could not find component "{!r}"'.format(component))
 
