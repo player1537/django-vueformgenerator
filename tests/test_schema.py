@@ -148,5 +148,18 @@ class TestDjango_vueformgenerator(TestCase):
 
         self.assertEqual(schema, expected)
 
+    def test_correct_error_thrown(self):
+        from django.forms.widgets import Widget
+        class NotARealWidget(Widget):
+            def __repr__(self):
+                return "NotARealWidget"
+
+        class TestForm(forms.Form):
+            not_a_real = forms.CharField(widget=NotARealWidget)
+
+        expected = 'Could not find component "NotARealWidget"'
+        with self.assertRaises(KeyError, msg=expected) as context:
+            schema = Schema().render(TestForm)
+
     def tearDown(self):
         pass

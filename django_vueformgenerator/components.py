@@ -17,7 +17,7 @@ class ComponentRegistry(object):
         for (widget_cls, component) in self.components.items():
             if field.widget.__class__ is widget_cls:
                 return component
-        raise KeyError('Could not find component "{!r}"'.format(component))
+        raise KeyError('Could not find component "{!r}"'.format(field.widget))
 
 
 registry = ComponentRegistry()
