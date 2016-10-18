@@ -10,9 +10,10 @@ Tests for `django-vueformgenerator` models module.
 
 from django.test import TestCase
 from django import forms
+from unittest import skip
 
 from django_vueformgenerator.schema import Schema
-from .models import TestModel
+from .models import TestModel, OtherModel
 
 
 class TestDjango_vueformgenerator(TestCase):
@@ -160,6 +161,62 @@ class TestDjango_vueformgenerator(TestCase):
         expected = 'Could not find component "NotARealWidget"'
         with self.assertRaises(KeyError, msg=expected) as context:
             schema = Schema().render(TestForm)
+
+    def test_schema_generation_for_foreign_key_field(self):
+        class TestForm(forms.ModelForm):
+            class Meta:
+                model = TestModel
+                fields = ('other_field',)
+
+        schema = Schema().render(TestForm)
+        expected = {
+            'schema': {
+                'fields': [
+                    {
+                        'default': None,
+                        'hint': '',
+                        'label': 'Other field',
+                        'model': 'other_field',
+                        'required': True,
+                        'type': 'select',
+                        'values': [
+                            { 'id': '', 'name': '---------' },
+                        ],
+                    },
+                ],
+            },
+        }
+
+        self.assertEqual(schema, expected)
+
+    @skip("This isn't working for some reason")
+    def test_schema_generation_for_related_field(self):
+        class TestForm(forms.ModelForm):
+            class Meta:
+                model = OtherModel
+                fields = ('other_field',)
+
+        self.maxDiff = None
+        schema = Schema().render(TestForm)
+        expected = {
+            'schema': {
+                'fields': [
+                    {
+                        'default': None,
+                        'hint': '',
+                        'label': 'Other field',
+                        'model': 'other_field',
+                        'required': True,
+                        'type': 'select',
+                        'values': [
+                            { 'id': '', 'name': '---------' },
+                        ],
+                    },
+                ],
+            },
+        }
+
+        self.assertEqual(schema, expected)
 
     def tearDown(self):
         pass

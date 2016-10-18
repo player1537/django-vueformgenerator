@@ -22,3 +22,7 @@ class TestModel(models.Model):
         ('JR', 'Junior'),
         ('SR', 'Senior'),
     ))
+    other_field = models.OneToOneField('OtherModel', related_name='other_field')
+
+class OtherModel(models.Model):
+    char_field = models.CharField(max_length=16)
