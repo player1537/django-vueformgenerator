@@ -16,3 +16,13 @@ History
 * Add Python 2 support
 * Add better documentation
 * Fix exception raised on bad widget
+
+0.2.0 (2016-10-25)
+++++++++++++++++++
+
+* Add ability to use existing data in form
+* DEPRECATED: Any code which previously used `Schema().render(MyForm)` should
+  now use `Schema().render(MyForm())` (in other words, `render()` accepts an
+  instance of a form, rather than a form itself). To check if you are calling
+  the function against contract, you can run your code with `python -Wd`
+  (e.g. `python -Wd manage.py runserver`).
