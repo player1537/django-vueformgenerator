@@ -301,5 +301,32 @@ class TestDjango_vueformgenerator(TestCase):
 
         self.assertEqual(schema, expected)
 
+    def test_schema_generation_without_data(self):
+        class TestForm(forms.ModelForm):
+            class Meta:
+                model = TestModel
+                fields = ('char_field',)
+
+        schema = Schema().render(TestForm())
+        expected = {
+            'model': {
+                'char_field': None,
+            },
+            'schema': {
+                'fields': [
+                    {
+                        'default': None,
+                        'hint': '',
+                        'label': 'Char field',
+                        'model': 'char_field',
+                        'required': True,
+                        'type': 'text'
+                    },
+                ],
+            },
+        }
+
+        self.assertEqual(schema, expected)
+
     def tearDown(self):
         pass
