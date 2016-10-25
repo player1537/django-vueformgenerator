@@ -32,7 +32,8 @@ Then use it in a project::
         title = forms.CharField(max_length=128)
         content = forms.TextField(max_length=1280)
 
-    schema = Schema().render(TestForm)
+    form = TestForm()  # or TestForm(data={'title':'My Title'})
+    schema = Schema().render(form)
     print(json.dumps(schema))
 
 
