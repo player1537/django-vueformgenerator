@@ -26,3 +26,8 @@ History
   instance of a form, rather than a form itself). To check if you are calling
   the function against contract, you can run your code with `python -Wd`
   (e.g. `python -Wd manage.py runserver`).
+
+0.2.1 (2016-10-27)
+++++++++++++++++++
+
+* Fix bug in tests so that the tests run successfully in Python 2.7.
