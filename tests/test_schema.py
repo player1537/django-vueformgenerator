@@ -83,7 +83,7 @@ class TestDjango_vueformgenerator(TestCase):
                 model = TestModel
                 fields = ('boolean_field',)
 
-        schema = Schema().render(TestForm)
+        schema = Schema().render(TestForm())
         expected = {
             'model': {
                 'boolean_field': False,
@@ -247,7 +247,7 @@ class TestDjango_vueformgenerator(TestCase):
                 fields = ('char_field',)
 
         with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter('once')
+            warnings.simplefilter('always')
 
             schema = Schema().render(TestForm)
             expected = {
