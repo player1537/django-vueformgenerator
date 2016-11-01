@@ -3,6 +3,13 @@
 History
 -------
 
+0.2.2 (2016-11-01)
+++++++++++++++++++
+
+* Fix implementation of using initial data in forms. Previously, if you used
+  `CharField(initial='foo')` then this information would not be preserved when
+  creating the schema.
+
 0.2.1 (2016-10-27)
 ++++++++++++++++++
 
