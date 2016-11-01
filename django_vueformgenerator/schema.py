@@ -20,15 +20,24 @@ class Schema(object):
         for (name, field) in form.fields.items():
             field.__name__ = name
 
-        fields = [
-            registry.lookup(field).render(field)
-            for field in form.fields.values()
-        ]
+        fields = []
+        for field in form.fields.values():
+            component = registry.lookup(field)
+            fields.append(component.render(field))
 
-        model = {
-            schema_field['model']: form[schema_field['model']].data
-            for schema_field in fields
-        }
+        model = {}
+        for schema_field in fields:
+            key = schema_field['model']
+            initial = form[key].initial
+            data = form[key].data
+
+            value = None
+            if initial is not None:
+                value = initial
+            if data is not None:
+                value = data
+
+            model[key] = value
 
         return dict(
             schema=dict(
