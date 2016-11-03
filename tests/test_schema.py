@@ -360,5 +360,116 @@ class TestDjango_vueformgenerator(TestCase):
 
         self.assertEqual(schema, expected)
 
+    def test_schema_generation_with_dotted_name(self):
+        class TestForm(forms.ModelForm):
+            class Meta:
+                model = TestModel
+                fields = ('field__with__dot',)
+
+        schema = Schema().render(TestForm())
+        expected = {
+            'model': {
+                'field': {
+                    'with': {
+                        'dot': None,
+                    },
+                },
+            },
+            'schema': {
+                'fields': [
+                    {
+                        'default': None,
+                        'hint': '',
+                        'label': 'Field with dot',
+                        'model': 'field.with.dot',
+                        'required': True,
+                        'type': 'text'
+                    },
+                ],
+            },
+        }
+
+        self.assertEqual(schema, expected)
+
+    def test_schema_generation_with_dotted_and_regular_names(self):
+        class TestForm(forms.ModelForm):
+            class Meta:
+                model = TestModel
+                fields = ('field__with__dot', 'char_field',)
+
+        schema = Schema().render(TestForm())
+        expected = {
+            'model': {
+                'char_field': None,
+                'field': {
+                    'with': {
+                        'dot': None,
+                    },
+                },
+            },
+            'schema': {
+                'fields': [
+                    {
+                        'default': None,
+                        'hint': '',
+                        'label': 'Field with dot',
+                        'model': 'field.with.dot',
+                        'required': True,
+                        'type': 'text'
+                    },
+                    {
+                        'default': None,
+                        'hint': '',
+                        'label': 'Char field',
+                        'model': 'char_field',
+                        'required': True,
+                        'type': 'text',
+                    },
+                ],
+            },
+        }
+
+        self.assertEqual(schema, expected)
+
+    def test_schema_generation_with_two_dotted_names(self):
+        class TestForm(forms.ModelForm):
+            class Meta:
+                model = TestModel
+                fields = ('field__with__dot', 'field__with__other',)
+
+        schema = Schema().render(TestForm())
+        expected = {
+            'model': {
+                'field': {
+                    'with': {
+                        'dot': None,
+                        'other': None,
+                    },
+                },
+            },
+            'schema': {
+                'fields': [
+                    {
+                        'default': None,
+                        'hint': '',
+                        'label': 'Field with dot',
+                        'model': 'field.with.dot',
+                        'required': True,
+                        'type': 'text'
+                    },
+                    {
+                        'default': None,
+                        'hint': '',
+                        'label': 'Field with other',
+                        'model': 'field.with.other',
+                        'required': True,
+                        'type': 'text'
+                    },
+                ],
+            },
+        }
+
+        self.assertEqual(schema, expected)
+
     def tearDown(self):
         pass

@@ -24,7 +24,7 @@ class Attr(Field):
 
 class Name(Field):
     def render(self, field):
-        return field.__name__
+        return field.__name__.replace('__', '.')
 
 
 class Func(Field):

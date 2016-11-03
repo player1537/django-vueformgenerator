@@ -23,6 +23,8 @@ class TestModel(models.Model):
         ('SR', 'Senior'),
     ))
     other_field = models.OneToOneField('OtherModel', related_name='other_field')
+    field__with__dot = models.CharField(max_length=128)
+    field__with__other = models.CharField(max_length=128)
 
 class OtherModel(models.Model):
     char_field = models.CharField(max_length=16)

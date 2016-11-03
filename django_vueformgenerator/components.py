@@ -91,12 +91,11 @@ class Component(object):
 
 
 class BaseComponent(six.with_metaclass(DeclarativeFieldsMetaclass, Component)):
-    label = Attr('label')
+    label = Attr('label', type=lambda x: x.replace('  ', ' '))
     hint = Attr('help_text')
     model = Name()
     default = Attr('default', default=None)
     required = Attr('required')
-
 
 @register_schema_for(widgets.TextInput)
 class TextComponent(six.with_metaclass(DeclarativeFieldsMetaclass, BaseComponent)):
