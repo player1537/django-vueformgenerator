@@ -3,6 +3,13 @@
 History
 -------
 
+0.2.3 (2016-11-03)
+++++++++++++++++++
+
+* Add support for dotted models. Use this feature by defining your Form with a
+  field that has a name with double-underscores (e.g. "foo__bar__baz", which
+  will become "foo.bar.baz" in the schema's model field).
+
 0.2.2 (2016-11-01)
 ++++++++++++++++++
 
