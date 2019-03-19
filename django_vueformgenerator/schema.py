@@ -43,8 +43,10 @@ class Schema(object):
             value = None
             if initial is not None:
                 value = initial
-            if data is not None:
+            if form.is_bound and data is not None:
                 value = data
+
+            value = form[key].field.prepare_value(value)
 
             m = prev = model
             for k in schema_field['model'].split('.'):
