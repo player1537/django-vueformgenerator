@@ -30,9 +30,13 @@ class Schema(object):
             field.__name__ = name
 
         fields = []
-        for field in form.fields.values():
-            component = registry.lookup(field)
-            fields.append(component.render(field))
+        for field_name in form.fields.keys():
+            field = form[field_name]
+            component = registry.lookup(field.field)
+            rendered = component.render(field.field)
+            if not rendered['label']:
+                rendered['label'] = field.label
+            fields.append(rendered)
 
         model = tree()
         for schema_field in fields:
@@ -43,8 +47,10 @@ class Schema(object):
             value = None
             if initial is not None:
                 value = initial
-            if data is not None:
+            if form.is_bound and data is not None:
                 value = data
+
+            value = form[key].field.prepare_value(value)
 
             m = prev = model
             for k in schema_field['model'].split('.'):

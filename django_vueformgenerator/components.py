@@ -131,3 +131,8 @@ class SelectComponent(six.with_metaclass(DeclarativeFieldsMetaclass, BaseCompone
 
     type = Literal('select')
     values = Attr('choices', type=get_values)
+
+
+@register_schema_for(widgets.SelectMultiple)
+class MultipleSelectComponent(SelectComponent):
+    multiple = Literal(True)
